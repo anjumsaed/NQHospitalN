@@ -1,0 +1,6 @@
+{
+  "name": "Naila Qaisar Hospital - Booking & Patient Portal",
+  "description": "Official medical portal for Naila Qaisar Hospital (Lalamusa, Gujrat). Integrated online appointment booking, digital tokens, and patient electronic health history logs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

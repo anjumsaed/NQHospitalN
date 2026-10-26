@@ -1,0 +1,40 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Doctors collection:
+    // Public can read to view schedules and fees on the hospital front page
+    // Authenticated admin/staff can create, update, delete
+    match /doctors/{doctorId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Appointments collection:
+    // Anyone can create an appointment when booking a token online
+    // Authenticated admin/staff can read and manage (check-in, reschedule, cancel)
+    match /appointments/{appointmentId} {
+      allow create: if request.resource.data.patientName is string 
+                    && request.resource.data.patientPhone is string
+                    && request.resource.data.doctorId is string;
+      allow read, update, delete: if request.auth != null;
+    }
+
+    // Patients collection:
+    // Strictly confidential - concealed behind admin/staff login only
+    match /patients/{patientId} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Hospital settings (Announcement bar, operational notices)
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}

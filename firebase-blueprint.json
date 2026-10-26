@@ -1,0 +1,93 @@
+{
+  "entities": {
+    "Doctor": {
+      "title": "Doctor",
+      "description": "Doctor profile with clinical specialization, consultation fee, and OPD schedule.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "title": { "type": "string" },
+        "qualification": { "type": "string" },
+        "departmentId": { "type": "string" },
+        "departmentName": { "type": "string" },
+        "experienceYears": { "type": "number" },
+        "consultationFee": { "type": "number" },
+        "availableDays": { "type": "array" },
+        "timingMorning": { "type": "string" },
+        "timingEvening": { "type": "string" },
+        "roomNo": { "type": "string" },
+        "avatarUrl": { "type": "string" },
+        "specialties": { "type": "array" },
+        "bio": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "departmentName", "consultationFee", "timingMorning"]
+    },
+    "Patient": {
+      "title": "Patient",
+      "description": "Confidential patient electronic health record (EHR) containing demographics, allergies, and visit histories.",
+      "type": "object",
+      "properties": {
+        "mrn": { "type": "string" },
+        "name": { "type": "string" },
+        "age": { "type": "number" },
+        "gender": { "type": "string" },
+        "phone": { "type": "string" },
+        "cnic": { "type": "string" },
+        "bloodGroup": { "type": "string" },
+        "address": { "type": "string" },
+        "city": { "type": "string" },
+        "emergencyContact": { "type": "object" },
+        "allergies": { "type": "array" },
+        "chronicConditions": { "type": "array" },
+        "visits": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["mrn", "name", "phone"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Patient appointment booking and digital OPD token record.",
+      "type": "object",
+      "properties": {
+        "tokenNumber": { "type": "number" },
+        "patientMrn": { "type": "string" },
+        "patientName": { "type": "string" },
+        "patientPhone": { "type": "string" },
+        "patientCnic": { "type": "string" },
+        "patientAge": { "type": "number" },
+        "patientGender": { "type": "string" },
+        "doctorId": { "type": "string" },
+        "doctorName": { "type": "string" },
+        "departmentName": { "type": "string" },
+        "appointmentDate": { "type": "string" },
+        "session": { "type": "string" },
+        "timeSlot": { "type": "string" },
+        "reason": { "type": "string" },
+        "status": { "type": "string" },
+        "roomNo": { "type": "string" },
+        "consultationFee": { "type": "number" },
+        "feePaid": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["patientName", "patientPhone", "doctorId", "doctorName", "appointmentDate", "tokenNumber"]
+    }
+  },
+  "firestore": {
+    "/doctors/{doctorId}": {
+      "schema": { "$ref": "#/entities/Doctor" },
+      "description": "Public doctor directory and schedule, managed by administrative staff."
+    },
+    "/patients/{patientId}": {
+      "schema": { "$ref": "#/entities/Patient" },
+      "description": "Restricted patient EHR records accessible strictly within authorized admin/doctor portal."
+    },
+    "/appointments/{appointmentId}": {
+      "schema": { "$ref": "#/entities/Appointment" },
+      "description": "Online appointments booked by patients and managed by clinic administration."
+    }
+  }
+}
